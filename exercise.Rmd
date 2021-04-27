@@ -1,0 +1,34 @@
+---
+title: "Data Wrangling"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+if(!require(pacman)) {
+  install.packages("pacman")
+  library(pacman)
+}
+pacman::p_load(tidyverse)
+```
+
+```{r}
+homepath = getwd()
+cat(homepath)
+```
+
+```{r csv}
+data <- read_csv(paste(homepath, "/data/data.csv", sep = ""))
+```
+
+```{r pivot}
+rename(data, var9_ses2 = var9_ses1_1)
+
+data_wide <- data %>%
+  pivot_longer(cols = starts_with("var"),
+               names_to = c(".value", "session"),
+               names_sep = "_")
+
+```
+
